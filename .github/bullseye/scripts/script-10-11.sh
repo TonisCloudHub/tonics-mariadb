@@ -30,7 +30,7 @@ lxc exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt install -
 
 lxc exec tonics-mariadb -- bash -c "mysql --user=root -sf <<EOS
 -- set root password
-UPDATE mysql.user SET Password=PASSWORD('tonics_cloud') WHERE User='root';
+ALTER USER root@localhost IDENTIFIED BY 'tonics_cloud'
 -- delete anonymous users
 DELETE FROM mysql.user WHERE User='';
 -- delete remote root capabilities
