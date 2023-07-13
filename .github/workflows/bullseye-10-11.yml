@@ -28,15 +28,11 @@ jobs:
 
           channel: latest/stable  # switch from distro's LTS channel to latest/stable
 
-          
-
       - name: Install MariaDB
 
         run: |
 
           bash .github/bullseye/scripts/script-10-11.sh
-
-          
 
       - name: Extract Tag Name
 
@@ -47,8 +43,6 @@ jobs:
           FILENAME=$(basename images/*.tar.gz .tar.gz)
 
           echo "filename=$FILENAME" >> $GITHUB_OUTPUT
-
-          
 
       - name: Check if tag exists
 
@@ -73,8 +67,6 @@ jobs:
         env:
 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-          
 
       - name: Release
 
