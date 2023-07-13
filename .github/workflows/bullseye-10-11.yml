@@ -1,6 +1,6 @@
 name: LXD MariaDB Image Build
 on:
-
+ 
   push:
 
     paths:
