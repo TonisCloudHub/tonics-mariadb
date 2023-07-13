@@ -1,2 +1,2 @@
-# tonics-mariadb
+# Tonics MariaDB
 MariaDB official image for TonicsCloud
