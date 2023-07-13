@@ -26,7 +26,7 @@ jobs:
 
         with:
 
-          channel: latest/stable  # switch from distro's LTS channel to latest/stable
+          channel: latest/stable  # switch from distro's LTS channel to latest/stable 
 
       - name: Install MariaDB
 
