@@ -32,7 +32,7 @@ lxc exec tonics-mariadb -- bash -c "mysql --user=root -sf <<EOS
 -- set root password
 ALTER USER root@localhost IDENTIFIED BY 'tonics_cloud'
 -- delete anonymous users
-DROP USER ''@'localhost'";
+DROP USER ''@'localhost';
 -- delete remote root capabilities
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 -- drop database 'test'
