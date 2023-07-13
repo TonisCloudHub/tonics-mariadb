@@ -1,5 +1,5 @@
 name: LXD MariaDB Image Build
-on: 
+on:
 
   push:
 
