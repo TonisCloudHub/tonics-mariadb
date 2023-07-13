@@ -1,4 +1,4 @@
-name: LXD MariaDB Image Build
+name: LXD MariaDB (BookWorm) Image Build
 on:
   push: 
     paths:
