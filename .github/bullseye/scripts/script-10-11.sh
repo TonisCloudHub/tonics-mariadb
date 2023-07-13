@@ -28,6 +28,22 @@ lxc file push mariadb.sources tonics-mariadb/etc/apt/sources.list.d/mariadb.sour
 lxc exec tonics-mariadb -- apt-get update -y
 lxc exec tonics-mariadb -- DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server
 
+lxc exec tonics-mariadb -- bash -c "mysql -sfu root <<EOS
+-- set root password
+UPDATE mysql.user SET Password=PASSWORD('tonics_cloud') WHERE User='root';
+-- delete anonymous users
+DELETE FROM mysql.user WHERE User='';
+-- delete remote root capabilities
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+-- drop database 'test'
+DROP DATABASE IF EXISTS test;
+-- also make sure there are lingering permissions to it
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+-- make changes immediately
+FLUSH PRIVILEGES;
+EOS
+"
+
 # Clean Debian Cache
 lxc exec tonics-mariadb -- apt clean
 
