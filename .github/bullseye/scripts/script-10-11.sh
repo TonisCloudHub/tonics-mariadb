@@ -26,7 +26,7 @@ lxc file push mariadb.sources tonics-mariadb/etc/apt/sources.list.d/mariadb.sour
 
 # Install MariaDB
 lxc exec tonics-mariadb -- apt update -y
-lxc exec tonics-mariadb -- DEBIAN_FRONTEND=noninteractive apt install -y mariadb-server
+lxc exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt install -y mariadb-server"
 
 lxc exec tonics-mariadb -- bash -c "mariadb -sfu root <<EOS
 -- set root password
