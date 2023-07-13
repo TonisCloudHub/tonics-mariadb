@@ -9,7 +9,7 @@ lxc exec tonics-mariadb -- mkdir -p /etc/apt/keyrings
 lxc exec tonics-mariadb -- curl -o /etc/apt/keyrings/mariadb-keyring.pgp 'https://mariadb.org/mariadb_release_signing_key.pgp'
 lxc exec tonics-mariadb -- mkdir -p /etc/apt/sources.list.d/mariadb.sources
 
-cat << EOF | sudo tee -a mariadb.sources
+lxc exec tonics-mariadb -- bash -c  "<< EOF | sudo tee -a /etc/apt/sources.list.d/mariadb.sources
 # MariaDB 10.11 repository list - created 2023-07-13 10:54 UTC
 # https://mariadb.org/download/
 X-Repolib-Name: MariaDB
@@ -21,8 +21,9 @@ Suites: bullseye
 Components: main
 Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp
 EOF
+"
 
-lxc file push mariadb.sources tonics-mariadb/etc/apt/sources.list.d/mariadb.sources
+# lxc file push mariadb.sources tonics-mariadb/etc/apt/sources.list.d/mariadb.sources
 
 # Install MariaDB
 lxc exec tonics-mariadb -- apt-get update -y
