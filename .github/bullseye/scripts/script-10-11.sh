@@ -28,7 +28,7 @@ lxc file push mariadb.sources tonics-mariadb/etc/apt/sources.list.d/mariadb.sour
 lxc exec tonics-mariadb -- apt update -y
 lxc exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt install -y mariadb-server"
 
-lxc exec tonics-mariadb -- bash -c "mariadb -sfu root <<EOS
+lxc exec tonics-mariadb -- bash -c "mysql --user=root -sfu <<EOS
 -- set root password
 UPDATE mysql.user SET Password=PASSWORD('tonics_cloud') WHERE User='root';
 -- delete anonymous users
