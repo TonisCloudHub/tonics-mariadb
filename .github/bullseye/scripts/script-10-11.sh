@@ -39,7 +39,7 @@ mkdir images && lxc stop tonics-mariadb && lxc publish tonics-mariadb --alias to
 
 # Export Image
 lxc start tonics-mariadb
-lxc image export tonics-mariadb images/nginx-bullseye-$Version
+lxc image export tonics-mariadb images/mariadb-bullseye-$Version
 
 # Image Info
 lxc image info tonics-mariadb >> images/info.txt
