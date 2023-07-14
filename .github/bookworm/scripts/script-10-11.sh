@@ -24,7 +24,7 @@ EOS
 "
 
 # Clean Debian Cache
-lxc exec tonics-mariadb -- apt clean
+lxc exec tonics-mariadb -- bash -c "apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
 
 # MariaDB Version
 Version=$(lxc exec tonics-mariadb -- mysql -V | awk '{print $5}' | sed 's/,//')
