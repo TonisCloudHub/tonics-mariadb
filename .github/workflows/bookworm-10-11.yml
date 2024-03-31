@@ -13,8 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: bdx0/action-incus@v1
-      
-      - name: Install MariaDB
+
+      - name: Install MariaDB 
         run: |
           bash .github/bookworm/scripts/script-10-11.sh
 
