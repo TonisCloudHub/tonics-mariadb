@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Init incus
+incus admin init --auto
+
 # Launch Instance
 lxc launch images:debian/bookworm/amd64 tonics-mariadb
 
