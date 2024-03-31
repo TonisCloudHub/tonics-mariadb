@@ -1,13 +1,16 @@
 #!/bin/bash
 
+# Init incus
+sudo incus admin init --auto
+
 # Launch Instance
-lxc launch images:debian/bullseye/amd64 tonics-mariadb
+sudo incus launch images:debian/bullseye/amd64 tonics-mariadb
 
 # Dependencies
-lxc exec tonics-mariadb -- apt install -y apt-transport-https curl
-lxc exec tonics-mariadb -- mkdir -p /etc/apt/keyrings
-lxc exec tonics-mariadb -- curl -o /etc/apt/keyrings/mariadb-keyring.pgp 'https://mariadb.org/mariadb_release_signing_key.pgp'
-lxc exec tonics-mariadb -- touch /etc/apt/sources.list.d/mariadb.sources
+sudo incus exec tonics-mariadb -- apt install -y apt-transport-https curl
+sudo incus exec tonics-mariadb -- mkdir -p /etc/apt/keyrings
+sudo incus exec tonics-mariadb -- curl -o /etc/apt/keyrings/mariadb-keyring.pgp 'https://mariadb.org/mariadb_release_signing_key.pgp'
+sudo incus exec tonics-mariadb -- touch /etc/apt/sources.list.d/mariadb.sources
 
 cat << EOF | sudo tee -a mariadb.sources
 # MariaDB 10.11 repository list - created 2023-07-13 10:54 UTC
@@ -22,13 +25,13 @@ Components: main
 Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp
 EOF
 
-lxc file push mariadb.sources tonics-mariadb/etc/apt/sources.list.d/mariadb.sources
+sudo incus file push mariadb.sources tonics-mariadb/etc/apt/sources.list.d/mariadb.sources
 
 # Install MariaDB
-lxc exec tonics-mariadb -- apt update -y
-lxc exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt install -y mariadb-server"
+sudo incus exec tonics-mariadb -- apt update -y
+sudo incus exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt install -y mariadb-server"
 
-lxc exec tonics-mariadb -- bash -c "mysql --user=root -sf <<EOS
+sudo incus exec tonics-mariadb -- bash -c "mysql --user=root -sf <<EOS
 -- set root password
 ALTER USER root@localhost IDENTIFIED BY 'tonics_cloud';
 DELETE FROM mysql.user WHERE User='';
@@ -44,17 +47,17 @@ EOS
 "
 
 # Clean Debian Cache
-lxc exec tonics-mariadb -- bash -c "apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
+sudo incus exec tonics-mariadb -- bash -c "apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
 
 # MariaDB Version
-Version=$(lxc exec tonics-mariadb -- mysql -V | awk '{print $5}' | sed 's/,//')
+Version=$(sudo incus exec tonics-mariadb -- mysql -V | awk '{print $5}' | sed 's/,//')
 
 # Publish Image
-mkdir images && lxc stop tonics-mariadb && lxc publish tonics-mariadb --alias tonics-mariadb
+mkdir images && sudo incus stop tonics-mariadb && sudo incus publish tonics-mariadb --alias tonics-mariadb
 
 # Export Image
-lxc start tonics-mariadb
-lxc image export tonics-mariadb images/mariadb-bullseye-$Version
+sudo incus start tonics-mariadb
+sudo incus image export tonics-mariadb images/mariadb-bullseye-$Version
 
 # Image Info
-lxc image info tonics-mariadb >> images/info.txt
+sudo incus image info tonics-mariadb >> images/info.txt
