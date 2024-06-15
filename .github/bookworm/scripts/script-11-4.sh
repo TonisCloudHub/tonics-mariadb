@@ -46,7 +46,7 @@ EOS
 sudo incus exec tonics-mariadb -- bash -c "apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
 
 # MariaDB Version
-Version=$(sudo incus exec tonics-mariadb -- mariadb -V | awk '{print $5}' | sed 's/,//')
+Version=$(sudo incus exec tonics-mariadb -- mariadbd --version | awk '{print $3}' | sed 's/,//')
 
 # Publish Image
 mkdir images && sudo incus stop tonics-mariadb && sudo incus publish tonics-mariadb --alias tonics-mariadb
