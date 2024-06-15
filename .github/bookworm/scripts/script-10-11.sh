@@ -8,8 +8,8 @@ sudo incus launch images:debian/bookworm/amd64 tonics-mariadb
 
 # Dependencies
 sudo incus exec tonics-mariadb -- bash -c "apt update -y && apt upgrade -y && apt install -y apt-transport-https curl"
-sudo incus exec tonics-mariadb -- bash -c 'curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-10.11" --os-type=debian'
-sudo incus exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt update -y && install -y mariadb-server"
+sudo incus exec tonics-mariadb -- bash -c 'curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-10.11"'
+sudo incus exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt update -y && apt install -y mariadb-server"
 
 sudo incus exec tonics-mariadb -- bash -c "mysql --user=root -sf <<EOS
 -- set root password
