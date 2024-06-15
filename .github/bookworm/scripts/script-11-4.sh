@@ -27,7 +27,7 @@ HEREDOC
 
 sudo incus exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt update -y && apt install -y mariadb-server"
 
-sudo incus exec tonics-mariadb -- bash -c "mysql --user=root -sf <<EOS
+sudo incus exec tonics-mariadb -- bash -c "mariadb --user=root -sf <<EOS
 -- set root password
 ALTER USER root@localhost IDENTIFIED BY 'tonics_cloud';
 DELETE FROM mysql.user WHERE User='';
@@ -46,7 +46,7 @@ EOS
 sudo incus exec tonics-mariadb -- bash -c "apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
 
 # MariaDB Version
-Version=$(sudo incus exec tonics-mariadb -- mysql -V | awk '{print $5}' | sed 's/,//')
+Version=$(sudo incus exec tonics-mariadb -- mariadb -V | awk '{print $5}' | sed 's/,//')
 
 # Publish Image
 mkdir images && sudo incus stop tonics-mariadb && sudo incus publish tonics-mariadb --alias tonics-mariadb
