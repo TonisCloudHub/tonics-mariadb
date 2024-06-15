@@ -25,7 +25,7 @@ Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp
 EOF
 HEREDOC
 
-sudo incus exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt update && apt install -y mariadb-server"
+sudo incus exec tonics-mariadb -- bash -c "DEBIAN_FRONTEND=noninteractive apt update -y && apt install -y mariadb-server"
 
 sudo incus exec tonics-mariadb -- bash -c "mysql --user=root -sf <<EOS
 -- set root password
